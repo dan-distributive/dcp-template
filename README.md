@@ -5,7 +5,21 @@ Template job demonstrating most options; serves as a tutorial and is extensible.
 * Modules and Submodules
 * Browser or Standalone [DCP Workers](https://distributive.network/)
 
-This example shows the full end-to-end workflow of a simple event-driven distributed job. Input data flows from the client to workers through the scheduler, and results flow back through the scheduler to the client. For direct worker data access that bypasses the scheduler, see remote jobs: https://github.com/dan-distributive/dcp-remote
+This example shows the full end-to-end workflow with most options shown for an event-driven distributed job. Input data flows from the client to workers through the scheduler, and results flow back through the scheduler to the client. For direct worker data access that bypasses the scheduler, see remote jobs: https://github.com/dan-distributive/dcp-remote
+
+This is a minimal Python DCP job, serving as a **starting point**. The more fully featured version with additional configuration options is in `template-job.py`:
+```
+import dcp
+dcp.init()
+
+def work_function(x, a, b):
+    progress()
+    return x * a + b
+
+job = dcp.compute_for([1, 2, 3, 4, 5], work_function, [31, 87])
+job.exec()
+results = job.wait()
+```
 
 ## Overview
 
