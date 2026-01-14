@@ -122,8 +122,11 @@ my_job.modules = ["numpy", "scipy"]
 # FILE SYSTEM
 # Specify files or directories to upload and make available to workers at runtime
 #-----------------------
-my_job.fs.add("./my_module_1.py")    # add a specific file
-my_job.fs.add("./my_modules")        # add a directory (contains my_module_2 and sub_modules)
+from pathlib import Path
+SCRIPT_DIR = Path(__file__).resolve().parent
+
+my_job.fs.add(f"{SCRIPT_DIR}/my_module_1.py")    # add a specific file
+my_job.fs.add(f"{SCRIPT_DIR}/my_modules")        # add a directory (contains my_module_2 and sub_modules)
 
 #-----------------------
 # EVENT LISTENERS
@@ -143,7 +146,6 @@ def on_readystatechange(rst):
     print(
         f"[{ts}] [readystatechange] "
         f"{rst}"
-        "\n"
     )
 
 my_job.on('readystatechange', on_readystatechange)
@@ -157,7 +159,6 @@ def on_accepted(_):
     print(
         f"[{ts}] [accepted] "
         f"Job ID: {job_id}. Awaiting results..."
-        "\n"
     )
 
 my_job.on('accepted', on_accepted)
@@ -175,7 +176,6 @@ def on_noProgress(nop):
     print(
         f"[{ts}] [noprogress_{slice_number}] "
         f"{message} Last progress: {last_progress}%"
-        "\n"
     )
 
 my_job.on('noProgress', on_noProgress)
@@ -192,7 +192,6 @@ def on_error(err):
     print(
         f"[{ts}] [error_{slice_number}] "
         f"{message}"
-        "\n"
     )
 
 my_job.on('error', on_error)
@@ -211,7 +210,6 @@ def on_nofunds(nof):
     print(
         f"[{ts}] [nofunds] "
         f"Bank account {bank_account} balance below ⊇{slice_payment_amount}. {remaining_slices} slices remain, ⊇{funds_required} required to complete."
-        "\n"
     )
 
 my_job.on('nofunds', on_nofunds)
@@ -227,7 +225,6 @@ def on_result(res):
     print(
         f"[{ts}] [result_{slice_number}] "
         f"{result}"
-        "\n"
     )
 
 my_job.on('result', on_result)
@@ -243,7 +240,6 @@ def on_console(con):
     print(
         f"[{ts}] [console_{slice_number}] "
         f"{message}"
-        "\n"
     )
 
 my_job.on('console', on_console)
@@ -269,4 +265,4 @@ my_results = my_job.wait()
 #-----------------------
 # RESULT POST-PROCESSING
 #-----------------------
-print(my_results)
+print("\n", my_results)
