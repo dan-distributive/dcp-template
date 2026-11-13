@@ -93,20 +93,20 @@ my_job.public = {
 # COMPUTE GROUPS
 # If `computeGroups` is not specified, the job runs on the Global Network.
 # `computeGroups` is a list of objects of the form:
-#   {"joinKey": "<key>", "joinSecret": "<secret>"}
+#   {"attachKey": "<key>", "attachSecret": "<secret>"}
 # Instead of hardcoding secrets, this example prompts for them at deployment time.
 #-----------------------
 
-# Compute Group join keys only
+# Compute Group attach keys only
 my_job.computeGroups = [
-    {"joinKey": "tensparrows"}
+    {"attachKey": "tensparrows"}
 ]
 
-# Prompt for join secrets at deployment time
+# Prompt for attach secrets at deployment time
 from getpass import getpass
 for g in my_job.computeGroups:
-    if g.get("joinKey") != "public":
-        g["joinSecret"] = getpass(f"Enter join secret for compute group '{g['joinKey']}': ")
+    if g.get("attachKey") != "global":
+        g["attachSecret"] = getpass(f"Enter attach secret for compute group '{g['attachKey']}': ")
 
 
 #-----------------------
